@@ -1,0 +1,49 @@
+{%extends './base.html' %}
+
+{% block title %}
+    Agregar Artesano
+{% endblock %}
+
+{% block content %}
+    <!--Título-->
+    <h1>Registrar Artesano</h1>
+
+    <!--Formulario-->
+    <form id= "form_artesano" name="form_artesano" action="{{url_for('agregar_artesano')}}" enctype="multipart/form-data"></form>
+        <br>
+        <label for="region_artesano">Región </label>
+        <select name="region_artesano" id="region_artesano" >
+            <!--leer el archivo de regiones y mostrarlas en el select-->
+            {% for region in regiones %}
+                <option value="{{ region }}">{{ region }}</option>
+            {% endfor %}
+        </select><br>
+        <br>
+
+        <label for="comuna_artesano">Comuna </label>
+        <select name="comuna_artesano" id="comuna_artesano" >
+            <!--leer el archivo de comunas y mostrarlas en el select, dependiendo de la región elegida-->
+            <!-- Obtener el id de la región y hacer un match con el comunas.json-->
+            <script>
+                var region = document.getElementById('region_artesano').innerHTML;
+                console.log(region);
+                
+                fetch('app/static/json/comunas.json')
+                    .then(function(response) {
+                        return response.json(); // Parsear la respuesta como JSON
+                    })
+                    .then(function(datos) {
+                        console.log(datos); // Hacer algo con los datos JSON
+                        var all_comunas = datos;
+                    })
+                    .catch(function(error) {
+                        console.error('Error al cargar el archivo JSON:', error);
+                    });
+
+                var comunas_region = all_comunas[region] 
+
+            </script>
+
+
+
+{% endblock %}

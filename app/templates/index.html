@@ -1,0 +1,17 @@
+{%extends './base.html' %}
+
+{% block title %}
+    Menú
+{% endblock %}
+
+{% block content %}
+    <h1> ¿Qué desea hacer? </h1>
+    <ul>
+        <li><a href="{{ url_for('agregar_hincha') }}">Registrar Hincha</a></li>
+        <li><a href="{{ url_for('agregar_artesano') }}">Registrar Artesano</a></li>
+        <li><a href="{{ url_for('ver_hinchas') }}">Ver listado de hinchas</a></li>
+        <li><a href="{{ url_for('ver_artesanos') }}">Ver listado de artesanos</a></li>
+    </ul>
+    
+
+{% endblock %}
