@@ -12,19 +12,26 @@
     <form id= "form_artesano" name="form_artesano" action="{{url_for('agregar_artesano')}}" enctype="multipart/form-data"></form>
         <br>
         <label for="region_artesano">Región </label>
-        <select name="region_artesano" id="region_artesano" >
-            <!--leer el archivo de regiones y mostrarlas en el select-->
+        <select name="region_artesano" id="region_artesano" size="1">
+
+            <!--leer el archivo de regiones y mostrarlas en el select-
             {% for region in regiones %}
                 <option value="{{ region }}">{{ region }}</option>
-            {% endfor %}
+            {% endfor %}-->
+            <option  value="" selected="selected">Please select region</option>
+
+
         </select><br>
         <br>
 
         <label for="comuna_artesano">Comuna </label>
         <select name="comuna_artesano" id="comuna_artesano" >
+            <option value="" selected="selected">Please select state</option>
+        
             <!--leer el archivo de comunas y mostrarlas en el select, dependiendo de la región elegida-->
             <!-- Obtener el id de la región y hacer un match con el comunas.json-->
-            <script>
+            
+            <!--<script>
                 var region = document.getElementById('region_artesano').innerHTML;
                 console.log(region);
                 
@@ -42,7 +49,7 @@
 
                 var comunas_region = all_comunas[region] 
 
-            </script>
+            </script>-->
 
 
 
