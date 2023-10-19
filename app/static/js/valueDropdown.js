@@ -32,30 +32,3 @@ var cargaTipo = () =>{
 
 }
 
-
-
-
-
-
-
-
-
-/*
-window.onload = function () {
-    var regionSel = document.getElementById("region_artesano");
-    var comunaSel = document.getElementById("comuna_artesano");
-    for (var region in valueDropdown) {
-        regionSel.options[regionSel.options.length] = new Option(region, region);
-    }
-
-    regionSel.onchange = function () {
-        comunaSel.length = 1;
-        if (this.selectedIndex < 1) return;
-        for (var comuna in valueDropdown[this.value]) {
-            comunaSel.options[comunaSel.options.length] = new Option(comuna, comuna);
-        }
-    }
-}
-
-regionSel.onchange();
-*/
