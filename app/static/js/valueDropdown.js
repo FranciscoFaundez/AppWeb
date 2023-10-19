@@ -17,6 +17,30 @@ var valueDropdown = {
     "Región Metropolitana de Santiago ": ["Cerrillos", "Cerro Navia", "Conchali", "El Bosque", "Estacion Central", "Huechuraba", "Independencia", "La Cisterna", "La Florida", "La Granja", "La Pintana", "La Reina", "Las Condes", "Lo Barnechea", "Lo Espejo", "Lo Prado", "Macul", "Maipu", "Ñuñoa", "Pedro Aguirre Cerda", "Peñalolen", "Providencia", "Pudahuel", "Quilicura", "Quinta Normal", "Recoleta", "Renca", "Santiago", "San Joaquin", "San Miguel", "San Ramon", "Vitacura", "Puente Alto", "Pirque", "San José de Maipo", "Colina", "Lampa", "Tiltil", "San Bernardo", "Buin", "Calera de Tango", "Paine", "Melipilla", "Alhué", "Curacavi", "San Pedro", "Talagante", "El Monte", "Isla de Maipo", "Padre Hurtado", "Peñaflor"]
 }
 
+var cargaTipo = () =>{
+    let select = document.getElementById("region_artesano").value;
+    
+    let selectComuna = document.getElementById("comuna_artesano");
+    selectComuna.innerHTML = "";
+
+    for (let i = 0; i < valueDropdown[select].length; i++) {
+        let option = document.createElement("option");
+        option.text = valueDropdown[select][i];
+        option.value = valueDropdown[select][i];
+        selectComuna.add(option);
+    }
+
+}
+
+
+
+
+
+
+
+
+
+/*
 window.onload = function () {
     var regionSel = document.getElementById("region_artesano");
     var comunaSel = document.getElementById("comuna_artesano");
@@ -34,3 +58,4 @@ window.onload = function () {
 }
 
 regionSel.onchange();
+*/

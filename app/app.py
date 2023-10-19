@@ -13,7 +13,7 @@ def index():
     return render_template('index.html')
 
 @app.route('/agregar-artesano', methods=['GET', 'POST'])
-def agregar_artesano():
+def agregar_artesano(): 
     if request.method == 'POST':
         region_artesano = request.form['region_artesano']
         comuna_artesano = request.form['comuna_artesano']

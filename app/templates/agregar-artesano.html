@@ -12,14 +12,11 @@
     <form id= "form_artesano" name="form_artesano" action="{{url_for('agregar_artesano')}}" enctype="multipart/form-data"></form>
         <br>
         <label for="region_artesano">Región </label>
-        <select name="region_artesano" id="region_artesano" size="1">
+        <select name="region_artesano" id="region_artesano" onchange="cargaTipo()">
 
-            <!--leer el archivo de regiones y mostrarlas en el select-
             {% for region in regiones %}
                 <option value="{{ region }}">{{ region }}</option>
-            {% endfor %}-->
-            <option  value="" selected="selected">Please select region</option>
-
+            {% endfor %}
 
         </select><br>
         <br>
@@ -53,4 +50,9 @@
 
 
 
+{% endblock %}
+
+
+{% block scripts %}
+<script src="{{url_for('static', filename='js/valueDropdown.js')}}"></script>
 {% endblock %}
