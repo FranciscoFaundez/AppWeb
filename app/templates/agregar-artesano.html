@@ -9,7 +9,7 @@
     <h1>Registrar Artesano</h1>
 
     <!--Formulario-->
-    <form id= "form_artesano" name="form_artesano" action="{{url_for('agregar_artesano')}}" enctype="multipart/form-data"></form>
+    <form id= "form_artesano" name="form_artesano" action="{{url_for('agregar_artesano')}}" enctype="multipart/form-data">
         <br>
         <label for="region_artesano">Región </label>
         <select name="region_artesano" id="region_artesano" onchange="cargaTipo()">
@@ -24,30 +24,45 @@
         <label for="comuna_artesano">Comuna </label>
         <select name="comuna_artesano" id="comuna_artesano" >
             <option value="" selected="selected">Please select state</option>
+        </select><br>
+        <br>
+
+        <label for="tipo_artesania">Tipo Artesanía </label>
+        <select name="tipo_artesania" id="tipo_artesania" multiple>
+            <option value="Mármol">Cerámica</option>
+            <option value="Madera">Cestería</option>
+            <option value="Cerámica">Cuero</option>
+            <option value="Mimbre">Fibras vegetales</option>
+            <option value="Metal">Metal</option>
+            <option value="Cuero">Piedra</option>
+            <option value="Telas">Textil</option>
+            <option value="Joyas">Vidrio</option>
+            <option value="Otro tipo">Otra</option>
+        </select><br>
+        <br>
+
+        <label for="desc_artesania"> Descripción artesanías </label>
+        <textarea name="desc_artesania" id="desc_artesania" rows="4" cols="50"></textarea><br>
+        <br>
+
+        <label for="foto_artesania">Fotos Artesanía </label>
+        <input type="file" name="foto_artesania" id="foto_artesania" accept="image/*" multiple><br>
+        <br>
+
+        <label for="nombre_artesano">Nombre artesano(a) </label>
+        <input type="text" name="nombre_artesano" id="nombre_artesano" minlength="3" maxlength="80"><br>
+        <br>
         
-            <!--leer el archivo de comunas y mostrarlas en el select, dependiendo de la región elegida-->
-            <!-- Obtener el id de la región y hacer un match con el comunas.json-->
-            
-            <!--<script>
-                var region = document.getElementById('region_artesano').innerHTML;
-                console.log(region);
-                
-                fetch('app/static/json/comunas.json')
-                    .then(function(response) {
-                        return response.json(); // Parsear la respuesta como JSON
-                    })
-                    .then(function(datos) {
-                        console.log(datos); // Hacer algo con los datos JSON
-                        var all_comunas = datos;
-                    })
-                    .catch(function(error) {
-                        console.error('Error al cargar el archivo JSON:', error);
-                    });
+        <label for="email_artesano">Email Contacto </label>
+        <input type="email" name="email_artesano" id="email_artesano" maxlength="30"><br>
+        <br>
 
-                var comunas_region = all_comunas[region] 
+        <label for="celular_artesano">Número Celular Artesano</label>
+        <input type="tel" name="celular_artesano" id="celular_artesano" maxlength="15"><br>
+        <br>
 
-            </script>-->
-
+        <button type="button" id="submit-conf-btn">Enviar</button>
+    </form>
 
 
 {% endblock %}
