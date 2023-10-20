@@ -5,6 +5,13 @@
 {% endblock %}
 
 {% block content %}
+
+
+    <div id="val-box" hidden>
+        <h2 id="val-msg"></h2>
+        <ul id="val-list"></ul> 
+    </div>
+
     <!--Título-->
     <h1>Registrar Artesano</h1>
 
@@ -61,7 +68,7 @@
         <input type="tel" name="celular_artesano" id="celular_artesano" maxlength="15"><br>
         <br>
 
-        <button type="button" id="submit-conf-btn">Enviar</button>
+        <button type="button" id="submit-btn-artesano">Enviar</button>
     </form>
 
 
@@ -70,4 +77,5 @@
 
 {% block scripts %}
 <script src="{{url_for('static', filename='js/valueDropdown.js')}}"></script>
+<script src="{{url_for('static', filename='js/validador.js')}}"></script>
 {% endblock %}
