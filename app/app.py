@@ -25,8 +25,10 @@ def agregar_artesano():
         email_artesano = request.form['email_artesano']
         celular_artesano = request.form['celular_artesano']
 
-        if validate_form(region_artesano):
-            print(region_artesano)
+        if validate_form(region_artesano, comuna_artesano, tipo_artesania, desc_artesania, foto_artesania, nombre_artesano, email_artesano, celular_artesano):
+            print("1." +region_artesano)
+            print("2." +comuna_artesano)
+            print("3." +str(tipo_artesania))
             #db.create_artesano(region_artesano, comuna_artesano, tipo_artesania, desc_artesania, foto_artesania, nombre_artesano, email_artesano, celular_artesano)
         return redirect(url_for('index'))
 
