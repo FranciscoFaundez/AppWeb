@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from database import db 
+from utils.validations import validate_form
 
 app = Flask(__name__)
 
@@ -24,11 +25,12 @@ def agregar_artesano():
         email_artesano = request.form['email_artesano']
         celular_artesano = request.form['celular_artesano']
 
-        #db.create_artesano(region_artesano, comuna_artesano, tipo_artesania, desc_artesania, foto_artesania, nombre_artesano, email_artesano, celular_artesano)
-        flash('Artesano agregado satisfactoriamente')
+        if validate_form(region_artesano):
+            print(region_artesano)
+            #db.create_artesano(region_artesano, comuna_artesano, tipo_artesania, desc_artesania, foto_artesania, nombre_artesano, email_artesano, celular_artesano)
         return redirect(url_for('index'))
 
-    #Si es es un GET
+    #Si es un GET
     #muestro las opciones de regiones y según lo elegido, muestro las comunas
     #leer el archivo de regiones y mostrarlas en el select
     with open('app/static/txt/regiones.txt', 'r', encoding='utf-8') as file:
@@ -39,7 +41,27 @@ def agregar_artesano():
 
 @app.route('/agregar-hincha', methods=['GET', 'POST'])
 def agregar_hincha():
-    return "agregar-hincha"
+    if request.method == 'POST':
+        deporte       = request.form['deporte']
+        region_hincha = request.form['region_hincha']
+        comuna_hincha = request.form['comuna_hincha']
+        transporte    = request.form['transporte']
+        nombre_hincha = request.form['nombre_hincha']
+        email_hincha  = request.form['email_hincha']
+        telefono_hincha = request.form['telefono_hincha']
+        comentarios   = request.form['comentarios']
+        #db.create_hincha(...)
+        flash('Hincha agregado satisfactoriamente')
+        return redirect(url_for('index'))
+    
+    with open('app/static/txt/deportes.txt', 'r', encoding='utf-8') as file:
+        deportes = [line.strip() for line in file.readlines()]
+
+    with open('app/static/txt/regiones.txt', 'r', encoding='utf-8') as file:
+        regiones = [line.strip() for line in file.readlines()]
+
+    return render_template('agregar-hincha.html', deportes = deportes, regiones = regiones)
+
 
 @app.route('/ver-hinchas', methods=['GET', 'POST'])
 def ver_hinchas():

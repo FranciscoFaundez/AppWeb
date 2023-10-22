@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=C:\Users\Lenovo\Downloads\Ramos\Desarrollo de Aplicaciones Web\AppWeb\venv
+set VIRTUAL_ENV=D:\Ramos\Desarrollo de Aplicaciones Web\AppWeb\venv
 
 if not defined PROMPT set PROMPT=$P$G
 

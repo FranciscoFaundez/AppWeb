@@ -32,3 +32,18 @@ var cargaTipo = () =>{
 
 }
 
+var cargaTipo2 = () =>{
+    let select = document.getElementById("region_hincha").value;
+    
+    let selectComuna = document.getElementById("comuna_hincha");
+    selectComuna.innerHTML = "";
+
+    for (let i = 0; i < valueDropdown[select].length; i++) {
+        let option = document.createElement("option");
+        option.text = valueDropdown[select][i];
+        option.value = valueDropdown[select][i];
+        selectComuna.add(option);
+    }
+
+}
+

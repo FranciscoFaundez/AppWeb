@@ -1,0 +1,72 @@
+{%extends './base.html' %}
+
+{% block title %}
+    Agregar Hincha
+{% endblock %}
+
+
+{% block content %}
+<div id="val-box" hidden>
+    <h2 id="val-msg"></h2>
+    <ul id="val-list"></ul> 
+</div>
+
+<!--Título-->
+<h1>Registrar Hincha</h1>
+
+<!--Formulario-->
+
+<form name="form_hincha" id="form_hincha" action="{{url_for('agregar_hincha')}}" method="post" enctype="multipart/form-data">
+    <label for="deporte" >Deporte(s) a apoyar </label>
+    <select name="deporte" id="deporte" multiple>
+        {% for deporte in deportes%}
+            <option value="{{ deporte }}">{{ deporte }}</option>
+        {% endfor %}
+    </select><br>
+    <br>
+
+    <label for="region_hincha">Región donde vive </label>
+    <select name="region_hincha" id="region_hincha" onchange="cargaTipo2()">
+        {% for region in regiones %}
+            <option value="{{ region }}">{{ region }}</option>
+        {% endfor %}
+    </select><br>
+    <br>
+
+    <label for="comuna_hincha">Comuna donde vive </label>
+    <select name="comuna_hincha" id="comuna_hincha">
+        <option value="" selected="selected">Seleccione una región primero</option>
+    </select><br>
+    <br>
+
+    <label for="transporte">Modo de transporte </label>
+    <select name="transporte" id="transporte">
+        <option value="Particular">Particular</option>
+        <option value="Locomoción pública.">Locomoción pública</option>
+    </select><br>
+
+    <label for="nombre_hincha">Nombre </label>
+    <input type="text" name="nombre_hincha" id="nombre_hincha" minlength="3" maxlength="80"><br>
+    <br>
+
+    <label for="email_hincha">Email </label>
+    <input type="email" name="email_hincha" id="email_hincha" maxlength="30"><br>
+    <br>
+
+    <label for="telefono_hincha">Número Celular Contacto </label>
+    <input type="text" name="telefono_hincha" id="telefono_hincha" maxlength="15"><br>
+    <br>
+
+    <label for="comentario">Comentarios Adicionales</label>
+    <input type="text" name="comentario" id="comentario" maxlength="80"><br>
+    <br>
+
+    <button type="button" id="submit-btn-hincha">Registrar Hincha</button>
+</form>
+{% endblock %}
+
+
+{% block scripts %}
+<script src="{{url_for('static', filename='js/valueDropdown.js')}}"></script>
+<script src="{{url_for('static', filename='js/validador.js')}}"></script>
+{% endblock %}
