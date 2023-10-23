@@ -1,4 +1,5 @@
 import re
+import filetype
 
 def validate_region(region):
     if (not region):
@@ -27,7 +28,24 @@ def validate_tipo_artesania(tipo_artesania):
 def validate_desc_artesania(desc_artesania):
     return True
 
-def validate_foto_artesania(foto_artesania):
+def validate_foto(foto):
+    ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
+    ALLOWED_MIMETYPES = {"image/jpeg", "image/png"}
+
+    #Check if a file was submited
+    if (foto is None):
+        print("No hay imagen")
+        return False
+    if (foto.filename == ""):
+        print("No hay imagen")
+        return False
+    #Check file extension
+    ftype_guess = filetype.guess(foto)
+    if ftype_guess.extension not in ALLOWED_EXTENSIONS:
+        return False
+    # check mimetype
+    if ftype_guess.mime not in ALLOWED_MIMETYPES:
+        return False
     return True
 
 def validate_nombre(nombre):
@@ -62,8 +80,8 @@ def validate_telefono(telefono):
     print("Teléfono inválido")
     return False
 
-def validate_form(region, comuna, tipo_artesania, desc_artesania, foto_artesania, nombre, email, telefono):
-    if (validate_region(region) and validate_comuna(comuna) and validate_tipo_artesania(tipo_artesania) and validate_desc_artesania(desc_artesania) and validate_foto_artesania(foto_artesania) and validate_nombre(nombre) and validate_email(email) and validate_telefono(telefono)):
+def validate_form(region, comuna, tipo_artesania, desc_artesania, foto, nombre, email, telefono):
+    if (validate_region(region) and validate_comuna(comuna) and validate_tipo_artesania(tipo_artesania) and validate_desc_artesania(desc_artesania) and validate_foto(foto) and validate_nombre(nombre) and validate_email(email) and validate_telefono(telefono)):
         print("Formulario válido")
         return True
     else:

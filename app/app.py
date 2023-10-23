@@ -1,6 +1,11 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, redirect, url_for, flash, request, session
 from database import db 
 from utils.validations import validate_form
+import hashlib
+import filetype
+from werkzeug.utils import secure_filename
+import os
+import uuid
 
 app = Flask(__name__)
 
@@ -26,15 +31,20 @@ def agregar_artesano():
         celular_artesano = request.form['celular_artesano']
 
         if validate_form(region_artesano, comuna_artesano, tipo_artesania, desc_artesania, foto_artesania, nombre_artesano, email_artesano, celular_artesano):
-            print("1." +region_artesano)
-            print("2." +comuna_artesano)
-            print("3." +str(tipo_artesania))
-            #db.create_artesano(region_artesano, comuna_artesano, tipo_artesania, desc_artesania, foto_artesania, nombre_artesano, email_artesano, celular_artesano)
+
+            #1. Generate random name for img
+            _filename = hashlib.sha256(secure_filename(foto_artesania.filename).encode("utf-8")).hexdigest()
+            _extension = filetype.guess(foto_artesania).extension
+            img_filename = f"{_filename}_{str(uuid.uuid4())}.{_extension}"
+
+            #2. Save img in static/img
+            foto_artesania.save(os.path.join(app.config["UPLOAD_FOLDER"], img_filename))
+
+            #3. Save form in db
+            db.create_artesano(region_artesano, comuna_artesano, tipo_artesania, desc_artesania, foto_artesania, nombre_artesano, email_artesano, celular_artesano)
+            print("Agregado a la db")
         return redirect(url_for('index'))
 
-    #Si es un GET
-    #muestro las opciones de regiones y según lo elegido, muestro las comunas
-    #leer el archivo de regiones y mostrarlas en el select
     with open('app/static/txt/regiones.txt', 'r', encoding='utf-8') as file:
         regiones = [line.strip() for line in file.readlines()]
 
