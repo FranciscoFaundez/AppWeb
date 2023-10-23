@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="D:\Ramos\Desarrollo de Aplicaciones Web\AppWeb\venv"
+VIRTUAL_ENV="C:\Users\Lenovo\Downloads\Ramos\Desarrollo de Aplicaciones Web\AppWeb\venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

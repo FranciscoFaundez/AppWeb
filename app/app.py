@@ -8,7 +8,7 @@ import os
 import uuid
 
 
-UPLOAD_FOLDER = 'static/uploads'
+UPLOAD_FOLDER = 'app/static/uploads'
 
 app = Flask(__name__)
 
@@ -36,6 +36,7 @@ def agregar_artesano():
 
             #1. Generate random name for img
             _filename = hashlib.sha256(secure_filename(foto_artesania.filename).encode("utf-8")).hexdigest()
+            print(_filename)
             _extension = filetype.guess(foto_artesania).extension
             img_filename = f"{_filename}_{str(uuid.uuid4())}.{_extension}"
 
@@ -45,7 +46,8 @@ def agregar_artesano():
             #3. Save form in db
             db.create_artesano(region_artesano, comuna_artesano, tipo_artesania, desc_artesania, img_filename, nombre_artesano, email_artesano, celular_artesano)
             print("Agregado a la db")
-        return redirect(url_for('index'))
+        
+            return redirect(url_for('index'))
 
     with open('app/static/txt/regiones.txt', 'r', encoding='utf-8') as file:
         regiones = [line.strip() for line in file.readlines()]
