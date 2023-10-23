@@ -7,12 +7,14 @@ from werkzeug.utils import secure_filename
 import os
 import uuid
 
+
+UPLOAD_FOLDER = 'static/uploads'
+
 app = Flask(__name__)
 
-
 app.secret_key = 'mysecretkey'
-
-
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1000 * 1000
 
 @app.route('/')
 def index():
@@ -37,11 +39,11 @@ def agregar_artesano():
             _extension = filetype.guess(foto_artesania).extension
             img_filename = f"{_filename}_{str(uuid.uuid4())}.{_extension}"
 
-            #2. Save img in static/img
+            #2. Save img in static/uploads
             foto_artesania.save(os.path.join(app.config["UPLOAD_FOLDER"], img_filename))
 
             #3. Save form in db
-            db.create_artesano(region_artesano, comuna_artesano, tipo_artesania, desc_artesania, foto_artesania, nombre_artesano, email_artesano, celular_artesano)
+            db.create_artesano(region_artesano, comuna_artesano, tipo_artesania, desc_artesania, img_filename, nombre_artesano, email_artesano, celular_artesano)
             print("Agregado a la db")
         return redirect(url_for('index'))
 
@@ -82,6 +84,9 @@ def ver_hinchas():
 
 @app.route('/ver-artesanos', methods=['GET', 'POST'])
 def ver_artesanos():
+    PAGE_SIZE = 3
+    data = []
+    for conf in db.
     return "ver-artesanos"
 
 

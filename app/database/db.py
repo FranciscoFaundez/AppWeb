@@ -27,7 +27,7 @@ def create_artesano(region_artesano, comuna_artesano, tipo_artesania, desc_artes
 
 	#Obtengo la id de la comuna dada
 	cursor.execute("SELECT id FROM comuna WHERE nombre = %s;", (comuna_artesano))
-	comuna_id = cursor.fetchone()[0]
+	comuna_id = cursor.fetchone()
 
 	#Chequeo que los valores estén bien
 	print(comuna_id)
@@ -36,15 +36,17 @@ def create_artesano(region_artesano, comuna_artesano, tipo_artesania, desc_artes
 
 	#Obtengo la id del artesano recién creado
 	cursor.execute("SELECT id FROM artesano WHERE nombre = %s;", (nombre_artesano))
-	artesano_id = cursor.fetchone()[0]
+	artesano_id = cursor.fetchone()
+	print(artesano_id)
 
-	#Obtengo el id de cada tipo de artesanía
+	#Obtengo el id de cada tipo de artesanía los tipos del artesano que estoy creando
 	for tipo in tipo_artesania:
 		cursor.execute("SELECT id FROM tipo_artesania WHERE nombre = %s;", (tipo))
-		tipo_id = cursor.fetchone()[0]
+		tipo_id = cursor.fetchone()
 		cursor.execute("INSERT INTO artesano_tipo (artesano_id, tipo_artesania_id) VALUES (%s, %s);", (artesano_id, tipo_id))
 
 
-	#Falta insertar la foto
+	#Inserto la foto
+	cursor.execute("INSERT INTO foto (ruta_archivo, nombre_archivo, artesano_id) VALUES (%s, %s, %s);", ("uploads/" + foto_artesania, foto_artesania, artesano_id))
 	
 	conn.commit()
