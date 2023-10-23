@@ -50,3 +50,17 @@ def create_artesano(region_artesano, comuna_artesano, tipo_artesania, desc_artes
 	cursor.execute("INSERT INTO foto (ruta_archivo, nombre_archivo, artesano_id) VALUES (%s, %s, %s);", ("uploads/" + foto_artesania, foto_artesania, artesano_id))
 	
 	conn.commit()
+
+def get_artesanos(page_size):
+	conn = get_conn()
+	cursor = conn.cursor()
+	cursor.execute("SELECT * FROM artesano  ORDER BY id DESC LIMIT %s;", (page_size))
+	artesanos = cursor.fetchall()
+	return artesanos
+
+def get_foto(artesano_id):
+	conn = get_conn()
+	cursor = conn.cursor()
+	cursor.execute("SELECT ruta_archivo FROM foto WHERE artesano_id = %s;", (artesano_id))
+	foto = cursor.fetchone()
+	return foto

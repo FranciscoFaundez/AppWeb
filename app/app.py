@@ -81,13 +81,25 @@ def agregar_hincha():
 def ver_hinchas():
     return "ver-hinchas"
 
-
-@app.route('/ver-artesanos', methods=['GET', 'POST'])
-def ver_artesanos():
-    PAGE_SIZE = 3
+@app.route('/ver-artesanos/<int:page>', defaults={'page': 1}, methods=['GET'])
+def ver_artesanos(page):
+    PAGE_SIZE = 5
     data = []
-    for conf in db.
-    return "ver-artesanos"
+    for artesano in db.get_artesanos(PAGE_SIZE):
+        id, comuna, descripcion, nombre, email, celular = artesano
+        ruta_foto = db.get_foto(id)
+
+        data.append({
+            "id": id,
+            "comuna": comuna,
+            "descripcion": descripcion,
+            "nombre": nombre,
+            "email": email,
+            "celular": celular,
+            "ruta_foto": ruta_foto
+        })
+
+    return render_template('ver-artesanos.html', data = data)
 
 
 
