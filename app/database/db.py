@@ -65,3 +65,17 @@ def get_foto(artesano_id):
 	cursor.execute("SELECT ruta_archivo FROM foto WHERE artesano_id = %s;", (artesano_id))
 	foto = cursor.fetchone()
 	return foto
+
+def get_comuna(comuna_id):
+	conn = get_conn()
+	cursor = conn.cursor()
+	cursor.execute("SELECT nombre FROM comuna WHERE id = %s;", (comuna_id))
+	comuna = cursor.fetchone()[0]
+	return comuna
+
+def get_tipos(artesano_id):
+	conn = get_conn()
+	cursor = conn.cursor()
+	cursor.execute("SELECT tipo_artesania.nombre FROM tipo_artesania, artesano_tipo WHERE artesano_tipo.artesano_id = %s AND artesano_tipo.tipo_artesania_id = tipo_artesania.id;", (artesano_id))
+	tipos = cursor.fetchall()
+	return tipos

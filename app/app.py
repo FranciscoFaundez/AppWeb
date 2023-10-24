@@ -83,23 +83,34 @@ def agregar_hincha():
 def ver_hinchas():
     return "ver-hinchas"
 
-@app.route('/ver-artesanos/<int:page>', defaults={'page': 1}, methods=['GET'])
-def ver_artesanos(page):
-    PAGE_SIZE = 5
+@app.route('/ver-artesanos', methods=['GET'])
+def ver_artesanos():
+    page_size = 5
     data = []
-    for artesano in db.get_artesanos(PAGE_SIZE):
-        id, comuna, descripcion, nombre, email, celular = artesano
-        ruta_foto = db.get_foto(id)
+    for artesano in db.get_artesanos(page_size):
+        id_artesano, comuna_id, descripcion, nombre, email, celular = artesano
+        ruta_foto = db.get_foto(id_artesano)[0]
+        print(ruta_foto)
+        #Recuperar nombre de la comuna
+        comuna = db.get_comuna(comuna_id)
+
+        #Recuperar tipos de artesanía
+        tipos = db.get_tipos(id_artesano)
+        tipo_str = ""
+        for tipo in tipos:
+            tipo_str += tipo[0] + ", "
 
         data.append({
-            "id": id,
+            "id_artesano": id_artesano,
             "comuna": comuna,
             "descripcion": descripcion,
             "nombre": nombre,
             "email": email,
-            "celular": celular,
-            "ruta_foto": ruta_foto
+            "celular": str(celular),
+            "ruta_foto": str(ruta_foto),
+            "tipo_artesania": tipo_str[:-2] #Elimino la última coma y espacio (,
         })
+        print(data[-1]["ruta_foto"])
 
     return render_template('ver-artesanos.html', data = data)
 

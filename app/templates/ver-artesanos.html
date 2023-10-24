@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Ver Artesanos
+{% endblock %}
+
+
+{%block content %}
+<table class="styled-table" style="width:100%" id="tabla">
+    <tr>
+        <th>Nombre</th>
+        <th>Teléfono</th>
+        <th>Comuna</th>
+        <th>Tipo Artesanías</th>
+        <th>Fotos</th>
+    </tr>
+
+    {%for persona in data%}
+    <tr>
+    <td>{{persona.nombre}}</td>
+    <td>{{persona.celular}}</td>
+    <td>{{persona.comuna}}</td>
+    <td>{{persona.tipo_artesania}}</td>
+    <td><img src="{{ url_for('static', filename=persona.ruta_foto) }}" alt="Imagen" class="image-container"></td>
+    </tr>  
+    {% endfor %}  
+</table>
+<br>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{url_for('static', filename='js/redirect.js')}}"></script>
+
+{% endblock %}
