@@ -29,21 +29,16 @@ def create_artesano(region_artesano, comuna_artesano, tipo_artesania, desc_artes
 	cursor.execute("SELECT id FROM comuna WHERE nombre = %s;", (comuna_artesano))
 	comuna_id = cursor.fetchone()[0]
 
-	#Chequeo que los valores estén bien
-	print(comuna_id)
-
 	cursor.execute("INSERT INTO artesano (comuna_id, descripcion_artesania, nombre, email, celular) VALUES (%s, %s, %s, %s, %s);", (comuna_id, desc_artesania, nombre_artesano, email_artesano, celular_artesano))
 
 	#Obtengo la id del artesano recién creado
 	cursor.execute("SELECT id FROM artesano WHERE nombre = %s;", (nombre_artesano))
 	artesano_id = cursor.fetchone()[0]
-	print(artesano_id)
 
 	#Obtengo el id de cada tipo de artesanía los tipos del artesano que estoy creando
 	for tipo in tipo_artesania:
 		cursor.execute("SELECT id FROM tipo_artesania WHERE nombre = %s;", (tipo))
 		tipo_id = cursor.fetchone()[0]
-		print(tipo_id)
 		cursor.execute("INSERT INTO artesano_tipo (artesano_id, tipo_artesania_id) VALUES (%s, %s);", (artesano_id, tipo_id))
 
 
@@ -51,6 +46,29 @@ def create_artesano(region_artesano, comuna_artesano, tipo_artesania, desc_artes
 	cursor.execute("INSERT INTO foto (ruta_archivo, nombre_archivo, artesano_id) VALUES (%s, %s, %s);", ("uploads/" + foto_artesania, foto_artesania, artesano_id))
 	
 	conn.commit()
+
+def create_hincha(deporte, region_hincha, comuna_hincha, transporte, nombre_hincha, email_hincha, telefono_hincha, comentarios):
+	conn = get_conn()
+	cursor = conn.cursor()
+
+	#Obtengo la id de la comuna dada
+	cursor.execute("SELECT id FROM comuna WHERE nombre = %s;", (comuna_hincha))
+	comuna_id = cursor.fetchone()[0]
+
+	cursor.execute("INSERT INTO hincha (comuna_id, modo_transporte, nombre, email, celular, comentarios) VALUES (%s, %s, %s, %s, %s, %s);", (comuna_id, transporte, nombre_hincha, email_hincha, telefono_hincha, comentarios))
+
+	#Obtengo la id del hincha recién creado
+	cursor.execute("SELECT id FROM hincha WHERE nombre = %s;", (nombre_hincha))
+	hincha_id = cursor.fetchone()[0]
+
+	#Obtengo el id de los deportes
+	for dep in deporte:
+		cursor.execute("SELECT id FROM deporte WHERE nombre = %s;", (dep))
+		dep_id = cursor.fetchone()[0]
+		cursor.execute("INSERT INTO hincha_deporte (hincha_id, deporte_id) VALUES (%s, %s);", (hincha_id, dep_id))
+	
+	conn.commit()
+
 
 def get_artesanos(page_size):
 	conn = get_conn()

@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, flash, request, session
 from database import db 
-from utils.validations import validate_form
+from utils.validations import validate_form, validate_form_hincha
 import hashlib
 import filetype
 from werkzeug.utils import secure_filename
@@ -36,7 +36,6 @@ def agregar_artesano():
 
             #1. Generate random name for img
             _filename = hashlib.sha256(secure_filename(foto_artesania.filename).encode("utf-8")).hexdigest()
-            print(_filename)
             _extension = filetype.guess(foto_artesania).extension
             img_filename = f"{_filename}_{str(uuid.uuid4())}.{_extension}"
 
@@ -58,17 +57,19 @@ def agregar_artesano():
 @app.route('/agregar-hincha', methods=['GET', 'POST'])
 def agregar_hincha():
     if request.method == 'POST':
-        deporte       = request.form['deporte']
+        deporte       = request.form.getlist('deporte')
         region_hincha = request.form['region_hincha']
         comuna_hincha = request.form['comuna_hincha']
         transporte    = request.form['transporte']
         nombre_hincha = request.form['nombre_hincha']
         email_hincha  = request.form['email_hincha']
         telefono_hincha = request.form['telefono_hincha']
-        comentarios   = request.form['comentarios']
-        #db.create_hincha(...)
-        flash('Hincha agregado satisfactoriamente')
-        return redirect(url_for('index'))
+        comentarios   = request.form['comentario']
+        if validate_form_hincha(deporte, region_hincha, comuna_hincha, transporte, nombre_hincha, email_hincha, telefono_hincha, comentarios):
+            db.create_hincha(deporte, region_hincha, comuna_hincha, transporte, nombre_hincha, email_hincha, telefono_hincha, comentarios)
+            print("Agregado a la db")
+
+            return redirect(url_for('index'))
     
     with open('app/static/txt/deportes.txt', 'r', encoding='utf-8') as file:
         deportes = [line.strip() for line in file.readlines()]
