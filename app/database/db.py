@@ -77,6 +77,13 @@ def get_artesanos(page_size):
 	artesanos = cursor.fetchall()
 	return artesanos
 
+def get_hinchas(page_size):
+	conn = get_conn()
+	cursor = conn.cursor()
+	cursor.execute("SELECT * FROM hincha  ORDER BY id DESC LIMIT %s;", (page_size))
+	hinchas = cursor.fetchall()
+	return hinchas
+
 def get_foto(artesano_id):
 	conn = get_conn()
 	cursor = conn.cursor()
@@ -97,3 +104,10 @@ def get_tipos(artesano_id):
 	cursor.execute("SELECT tipo_artesania.nombre FROM tipo_artesania, artesano_tipo WHERE artesano_tipo.artesano_id = %s AND artesano_tipo.tipo_artesania_id = tipo_artesania.id;", (artesano_id))
 	tipos = cursor.fetchall()
 	return tipos
+
+def get_deportes(hincha_id):
+	conn = get_conn()
+	cursor = conn.cursor()
+	cursor.execute("SELECT deporte.nombre FROM deporte, hincha_deporte WHERE hincha_deporte.hincha_id = %s AND hincha_deporte.deporte_id = deporte.id;", (hincha_id))
+	deportes = cursor.fetchall()
+	return deportes

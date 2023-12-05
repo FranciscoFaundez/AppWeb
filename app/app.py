@@ -82,7 +82,32 @@ def agregar_hincha():
 
 @app.route('/ver-hinchas', methods=['GET', 'POST'])
 def ver_hinchas():
-    return "ver-hinchas"
+    page_size = 5
+    data = []
+    for hincha in db.get_hinchas(page_size):
+        id_hincha, comuna_id, transporte, nombre, email, telefono, comentarios = hincha
+
+        #Recuperar nombre de la comuna
+        comuna = db.get_comuna(comuna_id)
+
+        #Obtener deportes
+        deportes = db.get_deportes(id_hincha)
+        print(deportes)
+
+        #Pasar a string los deportes
+        deportes = ", ".join([deporte[0] for deporte in deportes])
+
+        data.append({
+            "id_hincha": id_hincha,
+            "deportes": deportes,
+            "comuna": comuna,
+            "transporte": transporte,
+            "nombre": nombre,
+            "email": email,
+            "telefono": str(telefono),
+            "comentarios": comentarios
+        })
+    return render_template('ver-hinchas.html', data = data)
 
 @app.route('/ver-artesanos', methods=['GET'])
 def ver_artesanos():
@@ -111,7 +136,6 @@ def ver_artesanos():
             "ruta_foto": str(ruta_foto),
             "tipo_artesania": tipo_str[:-2] #Elimino la última coma y espacio (,
         })
-        print(data[-1]["ruta_foto"])
 
     return render_template('ver-artesanos.html', data = data)
 

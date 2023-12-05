@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Ver Hinchas
+{% endblock %}
+
+
+{%block content %}
+<table class="styled-table" style="width:100%" id="tabla">
+    <tr>
+        <th>Nombre</th>
+        <th>Comuna</th>
+        <th>Deportes</th>
+        <th>Modo Transporte</th>
+        <th>Número celular</th>
+    </tr>
+
+    {%for persona in data%}
+    <tr>
+    <td>{{persona.nombre}}</td>
+    <td>{{persona.comuna}}</td>
+    <td>{{persona.deportes}}</td>
+    <td>{{persona.transporte}}</td>
+    <td>{{persona.telefono}}</td>
+    </tr>  
+    {% endfor %}  
+</table>
+<br>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{url_for('static', filename='js/redirect.js')}}"></script>
+
+{% endblock %}
