@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Comentarios
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/buscador.css')}}">
+{% endblock %}
+
+{%block content %}
+
+hola
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{url_for('static', filename='js/redirect.js')}}"></script>
+<script src="{{url_for('static', filename='js/search-bar.js')}}"></script>
+{% endblock %}

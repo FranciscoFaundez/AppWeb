@@ -111,3 +111,52 @@ def get_deportes(hincha_id):
 	cursor.execute("SELECT deporte.nombre FROM deporte, hincha_deporte WHERE hincha_deporte.hincha_id = %s AND hincha_deporte.deporte_id = deporte.id;", (hincha_id))
 	deportes = cursor.fetchall()
 	return deportes
+
+#Obtiene las personas de la base de datos,incluyendo hinchas y artesanos
+def get_personas():
+	conn = get_conn()
+	cursor = conn.cursor()
+	cursor.execute("SELECT * FROM artesano;")
+	artesanos = cursor.fetchall()
+	cursor.execute("SELECT * FROM hincha;")
+	hinchas = cursor.fetchall()	
+
+	personas = []
+	for artesano in artesanos:
+		#obtener comuna de cada artesano
+		cursor.execute("SELECT nombre FROM comuna WHERE id = %s;", (artesano[1]))
+		comuna = cursor.fetchone()[0]
+		personas.append({
+			"tipo": "artesano",
+			"id": artesano[0],
+			"comuna": comuna,
+			"nombre": artesano[3],
+			"email": artesano[4],
+		})
+	for hincha in hinchas:
+		#obtener comuna de cada hincha
+		cursor.execute("SELECT nombre FROM comuna WHERE id = %s;", (hincha[1]))
+		comuna = cursor.fetchone()[0]
+		personas.append({
+			"tipo": "hincha",
+			"id": hincha[0],
+			"comuna": comuna,
+			"nombre": hincha[3],
+			"email": hincha[4],
+			"comentarios": hincha[6]
+		})
+
+	return personas
+
+#Get comentarios in the database "comentario" by the id of the person
+def get_comentarios(person_id):
+	conn = get_conn()
+	cursor = conn.cursor()
+	cursor.execute("SELECT * FROM comentario WHERE id_hincha = %s;", (person_id))
+	comentarios = cursor.fetchall()
+	#Si comentarios es vacío, intentarlo con artesano
+	if len(comentarios) == 0:
+		cursor.execute("SELECT * FROM comentario WHERE id_artesano = %s;", (person_id))
+		comentarios = cursor.fetchall()
+	return comentarios
+

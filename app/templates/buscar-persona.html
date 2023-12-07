@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Buscar
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/buscador.css')}}">
+{% endblock %}
+
+{%block content %}
+
+<div id="conf-list">
+    <div class="conf-search-bar">
+        <input class="search-input" id="search-input" type="text">
+        <img class="search-icon" id="search-icon" src="{{ url_for('static', filename='svg/search.svg') }}" alt="sus">
+    </div>
+    <div id="search-list" hidden>
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{url_for('static', filename='js/redirect.js')}}"></script>
+<script src="{{url_for('static', filename='js/search-bar.js')}}"></script>
+{% endblock %}

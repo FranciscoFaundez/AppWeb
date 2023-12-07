@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, flash, request, session
+from flask import Flask, render_template, redirect, url_for, flash, request, session, jsonify
 from database import db 
 from utils.validations import validate_form, validate_form_hincha
 import hashlib
@@ -140,9 +140,45 @@ def ver_artesanos():
     return render_template('ver-artesanos.html', data = data)
 
 
+@app.route('/buscar-persona', methods=['GET'])
+def buscar_persona():
+    #Hacer que los elementos de search-list en buscar-persona.html sean links a /comentarios/<nombre>
+    return render_template('buscar-persona.html')
 
 
+@app.route('/comentarios/<name_person>', methods=['GET'])
+def comentarios(name_person):
+    data= []
+    for comentario in db.get_comentarios(name_person):
+        id_comentario, nombre, comentario = comentario
+        data.append({
+            "id_comentario": id_comentario,
+            "nombre": nombre,
+            "comentario": comentario
+        })
 
+    return render_template('comentarios.html',data = data)
+
+@app.route('/agregar-comentario', methods=['GET', 'POST'])
+def agregar_comentario():
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        email = request.form['email']
+        fecha = request.form['fecha']
+        comentario = request.form['comentario']
+        db.create_comentario(nombre, comentario)
+        print("Agregado a la db")
+
+        return redirect(url_for('index'))
+
+    return render_template('agregar-comentario.html')
+
+@app.route('/get-people/<title__substring>', methods=['GET'])
+def get_people(title__substring):
+    people = db.get_personas()
+    #filtramos la lista de personas por el substring
+    matches = [person for person in people if title__substring.lower() in person["nombre"].lower()]
+    return jsonify({"status": "ok", "data": matches})
 
 if __name__ == '__main__':
     app.run(debug=True)
