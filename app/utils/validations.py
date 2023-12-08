@@ -72,7 +72,6 @@ def validate_telefono(telefono):
         return True
     telefono_regex = r"^(\+?56)?(\s?)(0?9)(\s?)[98765432]\d{7}$"
     if (re.match(telefono_regex, telefono)):
-        print("Teléfono válido")
         return True
     print("Teléfono inválido")
     return False

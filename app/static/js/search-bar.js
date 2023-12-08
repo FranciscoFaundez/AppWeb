@@ -11,7 +11,7 @@ let populateMatchList = (matchList) => {
     for (confTitle of matchList) {
       let option = document.createElement("a");
       option.href = `${window.origin}/comentarios/${confTitle["nombre"]}`;
-      option.innerText = confTitle["nombre"] + "   |   " + confTitle["email"] + "   |   " + confTitle["comuna"] + "   |   " ;
+      option.innerText = confTitle["nombre"] + "   |   " + confTitle["email"] + "   |   " + confTitle["comuna"] + "   |   \n" ;
       matchSearch.append(option);
     }
     matchSearch.hidden = false;

@@ -157,13 +157,13 @@ def get_comentarios(name_person):
 	#Obtener el id de la persona
 	_, person_id = get_person_id(name_person)
 
-	cursor.execute("SELECT * FROM comentario WHERE id_hincha = %s ORDER BY fecha;", (person_id))
+	cursor.execute("SELECT * FROM comentario WHERE id_hincha = %s ORDER BY fecha DESC;", (person_id))
 	comentarios = cursor.fetchall()
 	#Si comentarios es vacío, intentarlo con artesano
 	if len(comentarios) == 0:
-		cursor.execute("SELECT * FROM comentario WHERE id_artesano = %s ORDER BY fecha;", (person_id))
+		cursor.execute("SELECT * FROM comentario WHERE id_artesano = %s ORDER BY fecha DESC;", (person_id))
 		comentarios = cursor.fetchall()
-		
+
 	return comentarios
 
 def create_comentario(nombre, email, comentario, tipo, id_person):
