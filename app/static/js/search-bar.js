@@ -50,4 +50,6 @@ let handleAJAX = (event) => {
     fetchAJAX(url);
 };
 
-inputSearch.addEventListener("input", handleAJAX);
+if (inputSearch){
+    inputSearch.addEventListener("input", handleAJAX);
+}

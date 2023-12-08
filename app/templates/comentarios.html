@@ -10,7 +10,27 @@
 
 {%block content %}
 
-hola
+<table class="styled-table" style="width:100%" id="tabla">
+    <tr>
+        <th>Nombre</th>
+        <th>Email</th>
+        <th>Fecha</th>
+        <th>Comentario</th>
+    </tr>
+
+{% for icomentario in data %}
+    <tr>
+    <td>{{icomentario.nombre}}</td>
+    <td>{{icomentario.email}}</td>
+    <td>{{icomentario.fecha}}</td>
+    <td>{{icomentario.comentario}}</td>
+    </tr>  
+{% endfor %}  
+</table>
+<br>
+
+<form action="{{ url_for('agregar_comentario', name=name_person)}}" method="get">
+    <input type="submit" value="Agregar comentario">
 
 {% endblock %}
 

@@ -64,9 +64,9 @@ def agregar_hincha():
         nombre_hincha = request.form['nombre_hincha']
         email_hincha  = request.form['email_hincha']
         telefono_hincha = request.form['telefono_hincha']
-        comentarios   = request.form['comentario']
-        if validate_form_hincha(deporte, region_hincha, comuna_hincha, transporte, nombre_hincha, email_hincha, telefono_hincha, comentarios):
-            db.create_hincha(deporte, region_hincha, comuna_hincha, transporte, nombre_hincha, email_hincha, telefono_hincha, comentarios)
+        comentarioss   = request.form['comentario']
+        if validate_form_hincha(deporte, region_hincha, comuna_hincha, transporte, nombre_hincha, email_hincha, telefono_hincha, comentarioss):
+            db.create_hincha(deporte, region_hincha, comuna_hincha, transporte, nombre_hincha, email_hincha, telefono_hincha, comentarioss)
             print("Agregado a la db")
 
             return redirect(url_for('index'))
@@ -149,29 +149,33 @@ def buscar_persona():
 @app.route('/comentarios/<name_person>', methods=['GET'])
 def comentarios(name_person):
     data= []
-    for comentario in db.get_comentarios(name_person):
-        id_comentario, nombre, comentario = comentario
+    test = db.get_comentarios(name_person)
+    comentariossss = db.get_comentarios(name_person)
+
+    for i_comentario in comentariossss:
         data.append({
-            "id_comentario": id_comentario,
-            "nombre": nombre,
-            "comentario": comentario
+            "id_comentario": i_comentario[0],
+            "nombre": i_comentario[1],
+            "email": i_comentario[2],
+            "fecha": i_comentario[3],
+            "comentario": i_comentario[4]
         })
 
-    return render_template('comentarios.html',data = data)
+    return render_template('comentarios.html', data = data, name_person = name_person)
 
-@app.route('/agregar-comentario', methods=['GET', 'POST'])
-def agregar_comentario():
+@app.route('/agregar-comentario/<name>', methods=['GET', 'POST'])
+def agregar_comentario(name):
     if request.method == 'POST':
-        nombre = request.form['nombre']
-        email = request.form['email']
-        fecha = request.form['fecha']
-        comentario = request.form['comentario']
-        db.create_comentario(nombre, comentario)
+        nombre = request.form['nombre_comentario']
+        email = request.form['email_comentario']
+        comentario = request.form['texto_comentario']
+        #Ver si el nombre es de artesano o de hincha y entregar el id
+        tipo, id_person = db.get_person_id(name)
+        db.create_comentario(nombre, email, comentario, tipo, id_person)
         print("Agregado a la db")
+        return redirect(url_for('comentarios', name_person = name))
 
-        return redirect(url_for('index'))
-
-    return render_template('agregar-comentario.html')
+    return render_template('agregar-comentario.html', name = name)
 
 @app.route('/get-people/<title__substring>', methods=['GET'])
 def get_people(title__substring):

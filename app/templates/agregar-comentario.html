@@ -1,0 +1,38 @@
+{%extends './base.html' %}
+
+{% block title %}
+    Agregar Comentario
+{% endblock %}
+
+
+{% block content %}
+
+
+<!--Título-->
+<h1>Registrar Comentario</h1>
+
+<!--Formulario-->
+
+<form name="form_comentario" id="form_comentario" action="{{url_for('agregar_comentario', name=name)}}" method="post" enctype="multipart/form-data">
+
+    <label for="nombre_comentario">Nombre </label>
+    <input type="text" name="nombre_comentario" id="nombre_comentario"><br>
+    <br>
+
+    <label for="email_comentario">Email </label>
+    <input type="email" name="email_comentario" id="email_comentario" maxlength="30"><br>
+    <br>
+
+    <label for="texto_comentario">Comentarios Adicionales</label>
+    <input type="text" name="texto_comentario" id="texto_comentario"><br>
+    <br>
+
+    <button type="submit" id="submit-btn-comentario">Grabar Comentario</button>
+</form>
+{% endblock %}
+
+
+{% block scripts %}
+<script src="{{url_for('static', filename='js/valueDropdown.js')}}"></script>
+<script src="{{url_for('static', filename='js/validador.js')}}"></script>
+{% endblock %}

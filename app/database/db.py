@@ -1,5 +1,6 @@
 import pymysql
 import json
+from datetime import datetime
 
 
 DB_NAME = "tarea2"
@@ -149,14 +150,42 @@ def get_personas():
 	return personas
 
 #Get comentarios in the database "comentario" by the id of the person
-def get_comentarios(person_id):
+def get_comentarios(name_person):
 	conn = get_conn()
 	cursor = conn.cursor()
-	cursor.execute("SELECT * FROM comentario WHERE id_hincha = %s;", (person_id))
+
+	#Obtener el id de la persona
+	_, person_id = get_person_id(name_person)
+
+	cursor.execute("SELECT * FROM comentario WHERE id_hincha = %s ORDER BY fecha;", (person_id))
 	comentarios = cursor.fetchall()
 	#Si comentarios es vacío, intentarlo con artesano
 	if len(comentarios) == 0:
-		cursor.execute("SELECT * FROM comentario WHERE id_artesano = %s;", (person_id))
+		cursor.execute("SELECT * FROM comentario WHERE id_artesano = %s ORDER BY fecha;", (person_id))
 		comentarios = cursor.fetchall()
+		
 	return comentarios
 
+def create_comentario(nombre, email, comentario, tipo, id_person):
+	conn = get_conn()
+	cursor = conn.cursor()
+	if tipo == "artesano":
+		cursor.execute("INSERT INTO comentario (nombre, email, fecha, comentario, id_artesano) VALUES (%s, %s, %s, %s, %s);", (nombre, email, datetime.now(), comentario, id_person))
+	elif tipo == "hincha":
+		cursor.execute("INSERT INTO comentario (nombre, email, fecha, comentario, id_hincha) VALUES (%s, %s, %s, %s, %s);", (nombre, email, datetime.now(), comentario, id_person))
+	conn.commit()
+
+#Retornar si es artesano o hincha y retornar el id
+def get_person_id(name):
+	conn = get_conn()
+	cursor = conn.cursor()
+	cursor.execute("SELECT id FROM artesano WHERE nombre = %s;", (name))
+	artesano_id = cursor.fetchone()
+	cursor.execute("SELECT id FROM hincha WHERE nombre = %s;", (name))
+	hincha_id = cursor.fetchone()
+	if artesano_id is not None:
+		return "artesano", artesano_id[0]
+	elif hincha_id is not None:
+		return "hincha", hincha_id[0]
+	else:
+		return "", None
